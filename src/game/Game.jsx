@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import World from "./world";
+import World from "./World";
 import MobileControls from "./mobile/MobileControls";
 import socket from "./socket";
 
