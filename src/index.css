@@ -1,0 +1,64 @@
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; width: 100%; height: 100%; overflow: hidden; font-family: Arial, Helvetica, sans-serif; }
+body { background: #05070b; color: white; }
+.auth-page { position: relative; width: 100%; height: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: radial-gradient(circle at 50% 40%, #182033 0%, #090d16 45%, #030407 100%); }
+.auth-background { position: absolute; inset: 0; pointer-events: none; }
+.auth-glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; filter: blur(100px); opacity: 0.2; }
+.auth-glow-one { top: -250px; left: -150px; background: #1677ff; }
+.auth-glow-two { right: -200px; bottom: -250px; background: #7c2cff; }
+.auth-card { position: relative; z-index: 2; width: min(430px, calc(100% - 32px)); padding: 42px 36px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; background: rgba(10, 14, 23, 0.88); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); }
+.auth-logo { display: flex; justify-content: center; margin-bottom: 24px; }
+.auth-logo span { padding: 9px 18px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; font-size: 14px; font-weight: 800; letter-spacing: 4px; color: #7eb5ff; }
+.auth-card h1 { margin: 0; text-align: center; font-size: 30px; font-weight: 800; }
+.auth-subtitle { margin: 10px 0 30px; text-align: center; color: #8791a5; font-size: 14px; }
+.input-group { margin-bottom: 18px; }
+.input-group label { display: block; margin-bottom: 8px; color: #b8c0d0; font-size: 13px; font-weight: 600; }
+.input-group input { width: 100%; padding: 14px 15px; border: 1px solid #242c3c; border-radius: 9px; outline: none; background: #0b1019; color: white; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; }
+.input-group input::placeholder { color: #555f72; }
+.input-group input:focus { border-color: #3e8cff; box-shadow: 0 0 0 3px rgba(62, 140, 255, 0.1); }
+.auth-error { margin: 12px 0; padding: 11px 13px; border: 1px solid rgba(255, 70, 70, 0.25); border-radius: 8px; background: rgba(255, 50, 50, 0.08); color: #ff8d8d; font-size: 13px; }
+.auth-button { width: 100%; margin-top: 8px; padding: 14px; border: 0; border-radius: 9px; background: linear-gradient(135deg, #267cff, #1554c7); color: white; font-size: 14px; font-weight: 800; letter-spacing: 1px; cursor: pointer; transition: transform 0.15s, filter 0.15s; }
+.auth-button:hover { filter: brightness(1.15); transform: translateY(-1px); }
+.auth-button:active { transform: translateY(0); }
+.auth-button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.auth-switch { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 25px; color: #737d91; font-size: 13px; }
+.auth-switch button { padding: 0; border: 0; background: transparent; color: #6fa8ff; font-size: 13px; font-weight: 700; cursor: pointer; }
+.auth-switch button:hover { text-decoration: underline; }
+.loading-screen { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #05070b; }
+.loading-text { color: #6fa8ff; font-size: 14px; font-weight: 800; letter-spacing: 4px; }
+.game-page { width: 100%; height: 100%; background: radial-gradient(circle at center, #172235, #070a10 70%); }
+.game-header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 20px 25px; background: rgba(5, 8, 14, 0.75); border-bottom: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(12px); }
+.game-title { font-size: 18px; font-weight: 900; letter-spacing: 3px; }
+.game-player { margin-top: 4px; color: #7d879a; font-size: 12px; }
+.logout-button { padding: 10px 18px; border: 1px solid #313b4d; border-radius: 7px; background: #111722; color: white; font-size: 12px; font-weight: 700; cursor: pointer; }
+.logout-button:hover { background: #1b2330; }
+.game-center { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; }
+.game-center h1 { margin: 0; font-size: 42px; letter-spacing: 5px; }
+.game-center p { color: #7e899c; }
+.game-ui { position: fixed; inset: 0; z-index: 20; pointer-events: none; }
+.game-topbar { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent); }
+.game-logo { color: white; font-size: 18px; font-weight: 900; letter-spacing: 4px; }
+.game-user { margin-top: 4px; color: #8d98aa; font-size: 12px; }
+.game-topbar .logout-button { pointer-events: auto; }
+.game-crosshair { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 22px; font-weight: 300; text-shadow: 0 0 5px black, 0 0 10px black; }
+.game-bottom { position: absolute; left: 0; right: 0; bottom: 0; padding: 25px; background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent); }
+.game-status { display: inline-block; padding: 7px 12px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 5px; background: rgba(0, 0, 0, 0.35); color: #7cff9a; font-size: 11px; font-weight: 800; letter-spacing: 2px; }
+.game-instructions { position: fixed; top: 24px; left: 24px; z-index: 1000; width: 270px; padding: 16px 18px; border: 1px solid rgba(90, 170, 255, 0.35); border-radius: 14px; background: rgba(5, 8, 15, 0.84); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); color: white; font-family: Arial, Helvetica, sans-serif; pointer-events: none; }
+.game-instructions-title { margin-bottom: 13px; color: #59b7ff; font-size: 17px; font-weight: 900; letter-spacing: 1px; }
+.game-instruction-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; color: #e8edf5; font-size: 13px; font-weight: 500; }
+.game-instruction-row:last-child { margin-bottom: 0; }
+.game-instruction-icon { width: 27px; flex-shrink: 0; text-align: center; font-size: 18px; }
+.game-instruction-key { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 25px; padding: 0 7px; border: 1px solid rgba(255, 255, 255, 0.18); border-bottom-color: rgba(255, 255, 255, 0.3); border-radius: 6px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35); color: #ffffff; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.game-instruction-text { color: #d9dfeb; }
+.game-instructions-close { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.1); color: #ffffff; font-size: 16px; line-height: 1; cursor: pointer; pointer-events: auto; transition: background 0.15s, transform 0.15s; }
+.game-instructions-close:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+.game-controls-button { position: fixed; top: 20px; left: 20px; z-index: 1000; padding: 10px 14px; border: 1px solid rgba(90, 170, 255, 0.4); border-radius: 10px; background: rgba(5, 8, 15, 0.82); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35); backdrop-filter: blur(8px); color: white; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.15s; }
+.game-controls-button:hover { background: rgba(20, 35, 55, 0.95); transform: translateY(-1px); }
+.game-controls-button:active { transform: translateY(0); }
+@media (max-width: 600px) {
+.game-instructions { top: 12px; left: 12px; width: 225px; padding: 13px 14px; border-radius: 12px; }
+.game-instructions-title { margin-bottom: 10px; font-size: 14px; }
+.game-instruction-row { gap: 7px; margin-bottom: 7px; font-size: 11px; }
+.game-instruction-icon { width: 22px; font-size: 15px; }
+.game-instruction-key { min-width: 27px; height: 22px; padding: 0 5px; font-size: 9px; }
+.game-controls-button { top: 10px; left: 10px; padding: 8px 11px; font-size: 11px; }}
