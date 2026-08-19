@@ -55,7 +55,9 @@ export default function Game() {
 
   useEffect(() => {
     const handleEnemyKilled = () => {
-      setEnemiesKilled((value) => value + 1);
+      setEnemiesKilled((value) =>
+        Math.min(TOTAL_ENEMIES, value + 1)
+      );
     };
 
     const handlePlayerDamage = (event) => {
@@ -124,37 +126,62 @@ export default function Game() {
       setGameState("victory");
     };
 
-    socket.on("player-health", handleServerHealth);
-    socket.on("game-player-health", handleServerHealth);
+    socket.on(
+      "player-health",
+      handleServerHealth
+    );
+
+    socket.on(
+      "game-player-health",
+      handleServerHealth
+    );
+
     socket.on(
       "enemy-killed",
       handleServerEnemyKilled
     );
+
     socket.on(
       "game-enemy-killed",
       handleServerEnemyKilled
     );
-    socket.on("game-over", handleServerGameOver);
-    socket.on("game-victory", handleServerVictory);
+
+    socket.on(
+      "game-over",
+      handleServerGameOver
+    );
+
+    socket.on(
+      "game-victory",
+      handleServerVictory
+    );
 
     return () => {
-      socket.off("player-health", handleServerHealth);
+      socket.off(
+        "player-health",
+        handleServerHealth
+      );
+
       socket.off(
         "game-player-health",
         handleServerHealth
       );
+
       socket.off(
         "enemy-killed",
         handleServerEnemyKilled
       );
+
       socket.off(
         "game-enemy-killed",
         handleServerEnemyKilled
       );
+
       socket.off(
         "game-over",
         handleServerGameOver
       );
+
       socket.off(
         "game-victory",
         handleServerVictory
@@ -185,8 +212,15 @@ export default function Game() {
       setHelicopter(false);
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
+
+    window.addEventListener(
+      "keyup",
+      handleKeyUp
+    );
 
     return () => {
       window.removeEventListener(
@@ -250,9 +284,13 @@ export default function Game() {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
 
-    return `${String(minutes).padStart(2, "0")}:${String(
-      remainingSeconds
-    ).padStart(2, "0")}`;
+    return `${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(remainingSeconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   const healthPercent = Math.max(
@@ -295,18 +333,29 @@ export default function Game() {
             zIndex: 100,
             pointerEvents: "none",
             color: "#fff",
-            fontFamily: "Arial, Helvetica, sans-serif",
+            fontFamily:
+              "Arial, Helvetica, sans-serif",
           }}
         >
           <div
             style={{
               position: "absolute",
-              top: 20,
-              left: 20,
-              minWidth: 205,
-              padding: "14px 17px",
+              top: isMobile
+                ? "max(14px, env(safe-area-inset-top))"
+                : 20,
+              left: isMobile
+                ? "max(14px, env(safe-area-inset-left))"
+                : 20,
+              minWidth: isMobile ? 155 : 205,
+              maxWidth: isMobile
+                ? "calc(100vw - 120px)"
+                : "none",
+              padding: isMobile
+                ? "10px 12px"
+                : "14px 17px",
               borderRadius: 12,
-              background: "rgba(5,8,15,0.82)",
+              background:
+                "rgba(5,8,15,0.82)",
               border:
                 "1px solid rgba(255,255,255,0.12)",
               backdropFilter: "blur(8px)",
@@ -314,10 +363,10 @@ export default function Game() {
           >
             <div
               style={{
-                fontSize: 11,
+                fontSize: isMobile ? 9 : 11,
                 color: "#7f8da3",
                 letterSpacing: 1.5,
-                marginBottom: 5,
+                marginBottom: 4,
               }}
             >
               MISSION
@@ -325,8 +374,9 @@ export default function Game() {
 
             <div
               style={{
-                fontSize: 15,
+                fontSize: isMobile ? 12 : 15,
                 fontWeight: 800,
+                whiteSpace: "nowrap",
               }}
             >
               SURVIVE THE CITY
@@ -334,34 +384,43 @@ export default function Game() {
 
             <div
               style={{
-                marginTop: 10,
-                fontSize: 13,
+                marginTop: 7,
+                fontSize: isMobile ? 11 : 13,
                 color: "#ff5368",
               }}
             >
               👾 Enemies:{" "}
-              <strong>{enemiesKilled}</strong> /{" "}
-              {TOTAL_ENEMIES}
+              <strong>
+                {enemiesKilled}
+              </strong>{" "}
+              / {TOTAL_ENEMIES}
             </div>
           </div>
 
           <div
             style={{
               position: "absolute",
-              top: 20,
-              right: 20,
-              padding: "13px 16px",
-              minWidth: 90,
+              top: isMobile
+                ? "max(14px, env(safe-area-inset-top))"
+                : 20,
+              right: isMobile
+                ? "max(110px, calc(16vw + 75px))"
+                : 20,
+              padding: isMobile
+                ? "9px 12px"
+                : "13px 16px",
+              minWidth: isMobile ? 65 : 90,
               borderRadius: 12,
-              background: "rgba(5,8,15,0.82)",
+              background:
+                "rgba(5,8,15,0.82)",
               border:
                 "1px solid rgba(255,255,255,0.12)",
-              textAlign: "right",
+              textAlign: "center",
             }}
           >
             <div
               style={{
-                fontSize: 10,
+                fontSize: isMobile ? 8 : 10,
                 color: "#7f8da3",
                 letterSpacing: 1,
               }}
@@ -371,7 +430,7 @@ export default function Game() {
 
             <div
               style={{
-                fontSize: 18,
+                fontSize: isMobile ? 14 : 18,
                 fontWeight: 800,
               }}
             >
@@ -383,18 +442,23 @@ export default function Game() {
             <div
               style={{
                 position: "absolute",
-                top: 110,
+                top: isMobile ? 100 : 110,
                 left: "50%",
-                transform: "translateX(-50%)",
-                padding: "8px 15px",
+                transform:
+                  "translateX(-50%)",
+                padding: isMobile
+                  ? "6px 10px"
+                  : "8px 15px",
                 borderRadius: 20,
-                background: "rgba(20,100,255,0.25)",
+                background:
+                  "rgba(20,100,255,0.25)",
                 border:
                   "1px solid rgba(80,170,255,0.65)",
                 color: "#73c7ff",
-                fontSize: 12,
+                fontSize: isMobile ? 9 : 12,
                 fontWeight: 800,
                 letterSpacing: 1,
+                whiteSpace: "nowrap",
               }}
             >
               🚁 HELICOPTER SHOT
@@ -410,7 +474,8 @@ export default function Game() {
               top: isMobile
                 ? "50%"
                 : `${crosshair.y}%`,
-              transform: "translate(-50%, -50%)",
+              transform:
+                "translate(-50%, -50%)",
               width: 30,
               height: 30,
               display: "flex",
@@ -430,12 +495,24 @@ export default function Game() {
           <div
             style={{
               position: "absolute",
-              left: 24,
-              bottom: 25,
-              width: isMobile ? 190 : 230,
-              padding: "12px 14px",
+              left: isMobile
+                ? "50%"
+                : 24,
+              transform: isMobile
+                ? "translateX(-50%)"
+                : "none",
+              bottom: isMobile
+                ? "max(150px, 25vh)"
+                : 25,
+              width: isMobile
+                ? "min(260px, 55vw)"
+                : 230,
+              padding: isMobile
+                ? "9px 12px"
+                : "12px 14px",
               borderRadius: 10,
-              background: "rgba(5,8,15,0.82)",
+              background:
+                "rgba(5,8,15,0.82)",
               border:
                 "1px solid rgba(255,255,255,0.1)",
               boxShadow:
@@ -447,15 +524,22 @@ export default function Game() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
-                marginBottom: 7,
-                fontSize: 12,
+                justifyContent:
+                  "space-between",
+                marginBottom: 6,
+                fontSize: isMobile
+                  ? 10
+                  : 12,
                 fontWeight: 700,
               }}
             >
               <span>❤️ HEALTH</span>
 
-              <span style={{ color: healthColor }}>
+              <span
+                style={{
+                  color: healthColor,
+                }}
+              >
                 {playerHealth}
               </span>
             </div>
@@ -463,7 +547,7 @@ export default function Game() {
             <div
               style={{
                 width: "100%",
-                height: 8,
+                height: isMobile ? 7 : 8,
                 borderRadius: 10,
                 overflow: "hidden",
                 background:
@@ -491,9 +575,9 @@ export default function Game() {
               playerHealth > 0 && (
                 <div
                   style={{
-                    marginTop: 7,
+                    marginTop: 6,
                     color: "#ff5368",
-                    fontSize: 10,
+                    fontSize: 9,
                     fontWeight: 800,
                     letterSpacing: 1,
                     textAlign: "center",
@@ -511,13 +595,22 @@ export default function Game() {
           <div
             style={{
               position: "fixed",
-              top: isMobile ? 115 : 145,
-              left: 24,
+              top: isMobile ? 105 : 145,
+              left: isMobile ? 14 : 24,
               zIndex: 1000,
-              width: isMobile ? 245 : 305,
-              padding: "18px 20px",
+              width: isMobile
+                ? "min(285px, calc(100vw - 28px))"
+                : 305,
+              maxHeight: isMobile
+                ? "calc(100vh - 125px)"
+                : "none",
+              overflowY: "auto",
+              padding: isMobile
+                ? "15px 17px"
+                : "18px 20px",
               borderRadius: 14,
-              background: "rgba(5,8,15,0.94)",
+              background:
+                "rgba(5,8,15,0.94)",
               border:
                 "1px solid rgba(90,170,255,0.38)",
               boxShadow:
@@ -525,12 +618,15 @@ export default function Game() {
               color: "#fff",
               fontFamily:
                 "Arial, Helvetica, sans-serif",
+              pointerEvents: "auto",
             }}
           >
             <div
               style={{
                 color: "#59b7ff",
-                fontSize: 18,
+                fontSize: isMobile
+                  ? 16
+                  : 18,
                 fontWeight: 800,
                 marginBottom: 15,
               }}
@@ -603,9 +699,10 @@ export default function Game() {
                 lineHeight: 1.5,
               }}
             >
-              💡 <strong>Mission:</strong> Aim at
-              enemies and shoot them. Survive until
-              all enemies are eliminated.
+              💡 <strong>Mission:</strong>{" "}
+              Aim at enemies and shoot them.
+              Survive until all enemies are
+              eliminated.
             </div>
 
             <button
@@ -640,18 +737,24 @@ export default function Game() {
             }
             style={{
               position: "fixed",
-              top: isMobile ? 115 : 145,
-              left: 20,
+              top: isMobile
+                ? "max(100px, 14vh)"
+                : 145,
+              left: isMobile ? 14 : 20,
               zIndex: 1000,
-              padding: "10px 14px",
+              padding: isMobile
+                ? "8px 11px"
+                : "10px 14px",
               border:
                 "1px solid rgba(90,170,255,0.4)",
               borderRadius: 10,
-              background: "rgba(5,8,15,0.85)",
+              background:
+                "rgba(5,8,15,0.85)",
               color: "#fff",
-              fontSize: 13,
+              fontSize: isMobile ? 11 : 13,
               fontWeight: 700,
               cursor: "pointer",
+              pointerEvents: "auto",
             }}
           >
             🎮 Controls
@@ -667,14 +770,18 @@ export default function Game() {
             onJump={setMobileJump}
             onSprint={setMobileSprint}
             onHelicopter={() => {
-              setHelicopter((value) => !value);
+              setHelicopter(
+                (value) => !value
+              );
             }}
           />
         )}
 
       {gameState !== "playing" && (
         <GameEndScreen
-          victory={gameState === "victory"}
+          victory={
+            gameState === "victory"
+          }
           enemiesKilled={enemiesKilled}
           gameTime={gameTime}
           onRestart={restartGame}
@@ -717,7 +824,10 @@ function GameEndScreen({
   gameTime,
   onRestart,
 }) {
-  const minutes = Math.floor(gameTime / 60);
+  const minutes = Math.floor(
+    gameTime / 60
+  );
+
   const seconds = gameTime % 60;
 
   return (
@@ -741,7 +851,8 @@ function GameEndScreen({
           width: "min(450px, 100%)",
           padding: "45px 30px",
           borderRadius: 20,
-          background: "rgba(10,14,23,0.95)",
+          background:
+            "rgba(10,14,23,0.95)",
           border:
             "1px solid rgba(255,255,255,0.12)",
           boxShadow:
@@ -762,10 +873,14 @@ function GameEndScreen({
             margin: "0 0 10px",
             fontSize: 38,
             letterSpacing: 3,
-            color: victory ? "#ffd34e" : "#ff4057",
+            color: victory
+              ? "#ffd34e"
+              : "#ff4057",
           }}
         >
-          {victory ? "VICTORY!" : "GAME OVER"}
+          {victory
+            ? "VICTORY!"
+            : "GAME OVER"}
         </h1>
 
         <p
@@ -798,7 +913,11 @@ function GameEndScreen({
               ENEMIES
             </div>
 
-            <strong style={{ fontSize: 22 }}>
+            <strong
+              style={{
+                fontSize: 22,
+              }}
+            >
               {enemiesKilled}
             </strong>
           </div>
@@ -813,9 +932,20 @@ function GameEndScreen({
               TIME
             </div>
 
-            <strong style={{ fontSize: 22 }}>
-              {String(minutes).padStart(2, "0")}:
-              {String(seconds).padStart(2, "0")}
+            <strong
+              style={{
+                fontSize: 22,
+              }}
+            >
+              {String(minutes).padStart(
+                2,
+                "0"
+              )}
+              :
+              {String(seconds).padStart(
+                2,
+                "0"
+              )}
             </strong>
           </div>
         </div>
@@ -837,8 +967,4 @@ function GameEndScreen({
           }}
         >
           🔄 PLAY AGAIN
-        </button>
-      </div>
-    </div>
-  );
-}
+        </button>   </div>  </div>);}
