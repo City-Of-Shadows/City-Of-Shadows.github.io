@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-const SOCKET_URL = "http://localhost:5000";
+const SOCKET_URL = "https://server-production-d49f3.up.railway.app/";
 const socket = io(SOCKET_URL, {
   autoConnect: false,
   transports: ["websocket"],
