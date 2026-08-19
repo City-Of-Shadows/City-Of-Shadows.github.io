@@ -2,7 +2,7 @@ import React from "react";
 import { useTexture } from "@react-three/drei";
 
 export default function CityBoundary() {
-  const texture = useTexture("public/boundary.webp");
+  const texture = useTexture("/public/boundary.webp");
   const size = 500;
   const height = 100;
   const y = height / 2;
