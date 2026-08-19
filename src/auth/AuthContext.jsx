@@ -1,6 +1,6 @@
 import React,{createContext,useContext,useEffect,useState} from "react";
 const AuthContext=createContext(null);
-const API_URL="http://localhost:5000/api/auth";
+const API_URL="https://server-production-d49f3.up.railway.app/api/auth";
 const TOKEN_KEY="game_auth_token";
 const USER_KEY="game_auth_user";
 export function AuthProvider({children}) {
