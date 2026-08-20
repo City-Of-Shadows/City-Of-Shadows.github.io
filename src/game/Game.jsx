@@ -11,12 +11,16 @@ export default function Game() {
   const [mobileJump, setMobileJump] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
-  const [crosshair, setCrosshair] = useState({ x: 50, y: 50 });
+  const [crosshair, setCrosshair] = useState({
+    x: 50,
+    y: 50,
+  });
   const [enemiesKilled, setEnemiesKilled] = useState(0);
   const [playerHealth, setPlayerHealth] = useState(100);
   const [gameState, setGameState] = useState("playing");
   const [gameTime, setGameTime] = useState(0);
 
+  // Detect mobile / touch device
   useEffect(() => {
     const checkMobile = () => {
       const mobile =
@@ -35,6 +39,7 @@ export default function Game() {
     };
   }, []);
 
+  // Desktop mouse crosshair
   useEffect(() => {
     if (isMobile) return;
 
@@ -52,6 +57,7 @@ export default function Game() {
     };
   }, [isMobile]);
 
+  // Local game events
   useEffect(() => {
     const handleEnemyKilled = () => {
       setEnemiesKilled((value) =>
@@ -96,6 +102,7 @@ export default function Game() {
     };
   }, []);
 
+  // Hide instructions after 10 seconds
   useEffect(() => {
     if (gameState !== "playing") return;
 
@@ -106,6 +113,7 @@ export default function Game() {
     return () => clearTimeout(timer);
   }, [gameState]);
 
+  // Desktop helicopter key
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.code !== "KeyV" || event.repeat) return;
@@ -119,15 +127,8 @@ export default function Game() {
       setHelicopter(false);
     };
 
-    window.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
-
-    window.addEventListener(
-      "keyup",
-      handleKeyUp
-    );
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
       window.removeEventListener(
@@ -142,6 +143,7 @@ export default function Game() {
     };
   }, []);
 
+  // Game timer
   useEffect(() => {
     if (gameState !== "playing") return;
 
@@ -152,6 +154,7 @@ export default function Game() {
     return () => clearInterval(timer);
   }, [gameState]);
 
+  // Victory
   useEffect(() => {
     if (
       enemiesKilled >= TOTAL_ENEMIES &&
@@ -161,6 +164,7 @@ export default function Game() {
     }
   }, [enemiesKilled, gameState]);
 
+  // Game over
   useEffect(() => {
     if (
       playerHealth <= 0 &&
@@ -170,6 +174,7 @@ export default function Game() {
     }
   }, [playerHealth, gameState]);
 
+  // Restart local game
   const restartGame = () => {
     setEnemiesKilled(0);
     setPlayerHealth(100);
@@ -178,9 +183,17 @@ export default function Game() {
     setMobileMove({ x: 0, y: 0 });
     setMobileSprint(false);
     setMobileJump(false);
-    setCrosshair({ x: 50, y: 50 });
+    setCrosshair({
+      x: 50,
+      y: 50,
+    });
     setShowInstructions(true);
     setGameState("playing");
+
+    // Tell World to reset if it listens for this event
+    window.dispatchEvent(
+      new CustomEvent("game-restart")
+    );
   };
 
   const formatTime = (seconds) => {
@@ -219,6 +232,7 @@ export default function Game() {
         background: "#05070b",
       }}
     >
+      {/* GAME WORLD */}
       {gameState === "playing" && (
         <World
           mobileMove={mobileMove}
@@ -228,6 +242,7 @@ export default function Game() {
         />
       )}
 
+      {/* GAME HUD */}
       {gameState === "playing" && (
         <div
           style={{
@@ -240,6 +255,7 @@ export default function Game() {
               "Arial, Helvetica, sans-serif",
           }}
         >
+          {/* Mission */}
           <div
             style={{
               position: "absolute",
@@ -293,13 +309,12 @@ export default function Game() {
               }}
             >
               👾 Enemies:{" "}
-              <strong>
-                {enemiesKilled}
-              </strong>{" "}
-              / {TOTAL_ENEMIES}
+              <strong>{enemiesKilled}</strong> /{" "}
+              {TOTAL_ENEMIES}
             </div>
           </div>
 
+          {/* Timer */}
           <div
             style={{
               position: "absolute",
@@ -341,6 +356,7 @@ export default function Game() {
             </div>
           </div>
 
+          {/* Helicopter indicator */}
           {helicopter && (
             <div
               style={{
@@ -368,6 +384,7 @@ export default function Game() {
             </div>
           )}
 
+          {/* Crosshair */}
           <div
             style={{
               position: "absolute",
@@ -395,6 +412,7 @@ export default function Game() {
             +
           </div>
 
+          {/* Health */}
           <div
             style={{
               position: "absolute",
@@ -493,6 +511,7 @@ export default function Game() {
         </div>
       )}
 
+      {/* Instructions */}
       {gameState === "playing" &&
         showInstructions && (
           <div
@@ -632,6 +651,7 @@ export default function Game() {
           </div>
         )}
 
+      {/* Show controls button */}
       {gameState === "playing" &&
         !showInstructions && (
           <button
@@ -664,6 +684,7 @@ export default function Game() {
           </button>
         )}
 
+      {/* Mobile controls */}
       {isMobile &&
         gameState === "playing" && (
           <MobileControls
@@ -680,6 +701,7 @@ export default function Game() {
           />
         )}
 
+      {/* Game end */}
       {gameState !== "playing" && (
         <GameEndScreen
           victory={
@@ -870,4 +892,8 @@ function GameEndScreen({
           }}
         >
           🔄 PLAY AGAIN
-        </button>   </div>  </div>);}
+        </button>
+      </div>
+    </div>
+  );
+}
