@@ -181,10 +181,6 @@ export default function Game() {
     setCrosshair({ x: 50, y: 50 });
     setShowInstructions(true);
     setGameState("playing");
-
-    if (socket.connected) {
-      socket.emit("game-restart");
-    }
   };
 
   const formatTime = (seconds) => {
