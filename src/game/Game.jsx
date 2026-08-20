@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import World from "./World";
 import MobileControls from "./mobile/MobileControls";
-import socket from "./socket";
 
 const TOTAL_ENEMIES = 10;
 
@@ -93,98 +92,6 @@ export default function Game() {
       window.removeEventListener(
         "game-player-damage",
         handlePlayerDamage
-      );
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleServerHealth = (data) => {
-      if (data == null || data.health == null) return;
-
-      const health = Number(data.health);
-
-      if (Number.isNaN(health)) return;
-
-      setPlayerHealth(
-        Math.max(0, Math.min(100, health))
-      );
-    };
-
-    const handleServerEnemyKilled = (data) => {
-      console.log("Enemy killed by server:", data);
-
-      setEnemiesKilled((value) =>
-        Math.min(TOTAL_ENEMIES, value + 1)
-      );
-    };
-
-    const handleServerGameOver = () => {
-      setGameState("gameover");
-    };
-
-    const handleServerVictory = () => {
-      setGameState("victory");
-    };
-
-    socket.on(
-      "player-health",
-      handleServerHealth
-    );
-
-    socket.on(
-      "game-player-health",
-      handleServerHealth
-    );
-
-    socket.on(
-      "enemy-killed",
-      handleServerEnemyKilled
-    );
-
-    socket.on(
-      "game-enemy-killed",
-      handleServerEnemyKilled
-    );
-
-    socket.on(
-      "game-over",
-      handleServerGameOver
-    );
-
-    socket.on(
-      "game-victory",
-      handleServerVictory
-    );
-
-    return () => {
-      socket.off(
-        "player-health",
-        handleServerHealth
-      );
-
-      socket.off(
-        "game-player-health",
-        handleServerHealth
-      );
-
-      socket.off(
-        "enemy-killed",
-        handleServerEnemyKilled
-      );
-
-      socket.off(
-        "game-enemy-killed",
-        handleServerEnemyKilled
-      );
-
-      socket.off(
-        "game-over",
-        handleServerGameOver
-      );
-
-      socket.off(
-        "game-victory",
-        handleServerVictory
       );
     };
   }, []);
